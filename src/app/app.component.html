@@ -1,1 +1,13 @@
-<div>RNO</div>
+<nav>
+    <ul class="nav nav-tabs">
+        <li class="nav-item"
+            *ngFor="let tab of tabs">
+            <a [ngClass]="['nav-link',tab === selected? 'active':'']"
+               routerLink="/{{tab}}">{{tab|titlecase}}</a>
+        </li>
+    </ul>
+</nav>
+<main>
+    <router-outlet></router-outlet>
+</main>
+<footer></footer>

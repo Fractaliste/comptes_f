@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'c-root',
@@ -6,5 +8,16 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.sass']
 })
 export class AppComponent {
-  title = 'compte-f';
+
+  tabs = ["accueil", "comptes", "budget"]
+  selected = this.tabs[0]
+
+  constructor(router: Router) {
+    // Maj de la tabulation selected
+    router.events.pipe(filter(ev => ev instanceof NavigationEnd)).subscribe(event => {
+      const ev = event as NavigationEnd
+      this.selected = ev.urlAfterRedirects.replace("/", "")
+
+    })
+  }
 }
