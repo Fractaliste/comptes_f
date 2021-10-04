@@ -1,13 +1,17 @@
-<nav>
-    <ul class="nav nav-tabs">
-        <li class="nav-item"
-            *ngFor="let tab of tabs">
-            <a [ngClass]="['nav-link',tab === selected? 'active':'']"
-               routerLink="/{{tab}}">{{tab|titlecase}}</a>
-        </li>
-    </ul>
-</nav>
-<main>
-    <router-outlet></router-outlet>
+<main class=" vh-100 d-flex flex-column">
+    <nav>
+        <ul class="nav nav-tabs">
+            <li class="nav-item"
+                *ngFor="let tab of tabs">
+                <a [ngClass]="['nav-link',tab === selected? 'active':'']"
+                   routerLink="/{{tab}}">{{tab|titlecase}}</a>
+            </li>
+        </ul>
+    </nav>
+    <section class="container-fluid flex-fill d-flex">
+        <div class="w-100">
+            <router-outlet></router-outlet>
+        </div>
+        <footer></footer>
+    </section>
 </main>
-<footer></footer>

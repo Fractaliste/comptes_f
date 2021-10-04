@@ -1,0 +1,8 @@
+<div class="pointer"
+     (click)="onAjouterCompte()">
+    <i class="bi-plus"></i><span class="fw-light fs-6">Ajouter un compte</span>
+</div>
+<c-popup [popupId]="popupId"
+         [popupTitle]="'Ajout d\'un compte'">
+    <c-edition></c-edition>
+</c-popup>
