@@ -1,19 +1,22 @@
 <div class="mb-3">
-    <label for="nomCompte"
-           class="form-label">Nom du compte</label>
-    <input type="text"
-           class="form-control"
-           id="nomCompte">
+       <label for="nomCompte"
+              class="form-label">Nom du compte</label>
+       <input type="text"
+              class="form-control"
+              id="nomCompte"
+              [(ngModel)]="model.name">
 </div>
 <div class="mb-3">
-    <label for="soldeInitial"
-           class="form-label">Solde initial</label>
-    <input type="text"
-           class="form-control"
-           id="soldeInitial">
+       <label for="soldeInitial"
+              class="form-label">Solde initial</label>
+       <input type="text"
+              class="form-control"
+              id="soldeInitial"
+              [(ngModel)]="model.soldeInitial">
 </div>
 <div class="mb-3">
-    <input type="hidden"
-           class="form-control"
-           id="id">
+       <input type="hidden"
+              class="form-control"
+              id="id"
+              [(ngModel)]="model.id">
 </div>

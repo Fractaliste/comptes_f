@@ -1,4 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit } from '@angular/core';
+import { EventBusType } from '../services/event-bus-type';
+import { EventBusService } from '../services/event-bus.service';
 
 @Component({
   selector: 'c-popup',
@@ -10,9 +12,17 @@ export class PopupComponent implements OnInit {
   @Input() popupId!: string
   @Input() popupTitle!: string
 
-  constructor() { }
+  constructor(private eventBus: EventBusService) { }
 
   ngOnInit(): void {
+  }
+
+  closeHandler() {
+    this.eventBus.emit(EventBusType.PopupCancel)
+  }
+
+  saveHandler() {
+    this.eventBus.emit(EventBusType.PopupSave)
   }
 
 }

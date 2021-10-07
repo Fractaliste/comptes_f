@@ -16,9 +16,12 @@
             <div class="modal-footer">
                 <button type="button"
                         class="btn btn-secondary"
-                        data-bs-dismiss="modal">Close</button>
+                        data-bs-dismiss="modal"
+                        (click)="closeHandler()">Close</button>
                 <button type="button"
-                        class="btn btn-primary">Save changes</button>
+                        class="btn btn-primary"
+                        (click)="saveHandler()"
+                        >Save changes</button>
             </div>
         </div>
     </div>
