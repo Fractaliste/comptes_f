@@ -9,7 +9,7 @@ import { filter } from 'rxjs/operators';
 })
 export class AppComponent {
 
-  tabs = ["accueil", "comptes", "budget"]
+  tabs = ["accueil", "compte", "budget", "categorie"]
   selected = this.tabs[0]
 
   constructor(router: Router) {
