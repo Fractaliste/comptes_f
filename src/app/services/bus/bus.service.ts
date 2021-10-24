@@ -16,7 +16,7 @@ export class BusService {
 
   static ErrorMessageEventType = new EventType<string>("ErrorMessageEventType")
   static PopupOpenEventType = new EventType<string>("PopupOpenEventType")
-  static PopupCancelEventType = new EventType<void>("PopupCancelEventType")
+  static PopupCloseEventType = new EventType<void>("PopupCloseEventType")
   static PopupSaveEventType = new EventType<void>("PopupSaveEventType")
   static EditionCompteEventType = new EventType<Compte>("EditionCompteEventType")
 

@@ -14,7 +14,7 @@ export class PopupComponent implements OnInit {
   myModal?: Modal;
 
   constructor(private eventBus: BusService) {
-    eventBus.listen(BusService.PopupOpenEventType).subscribe(this.openPopup.bind(this))
+    eventBus.listen(BusService.PopupOpenEventType).subscribe((idPopup) => this.openPopup(idPopup))
   }
 
 
@@ -22,12 +22,12 @@ export class PopupComponent implements OnInit {
   }
 
   closeHandler() {
-    this.eventBus.emit(BusService.PopupCancelEventType)
+    this.eventBus.emit(BusService.PopupCloseEventType)
   }
 
   saveHandler() {
     this.eventBus.emit(BusService.PopupSaveEventType)
-    if(this.myModal) {
+    if (this.myModal) {
       this.myModal.hide()
     }
   }

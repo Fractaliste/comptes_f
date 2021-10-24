@@ -20,11 +20,10 @@ export class CompteEditionComponent implements OnInit {
       this.model = compte
       this.eventBus.emit(BusService.PopupOpenEventType, this.popupId)
     })
-
   }
 
   ngOnInit(): void {
-    this.eventBus.listen(BusService.PopupCancelEventType).subscribe(() => console.log("Cancel received", this.model))
+    this.eventBus.listen(BusService.PopupCloseEventType).subscribe(() => console.log("Close received", this.model))
     this.eventBus.listen(BusService.PopupSaveEventType)
       .subscribe(() => {
         if (this.model) {
