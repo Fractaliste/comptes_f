@@ -1,0 +1,12 @@
+<ul class="list-group list-group-flush">
+    <div class="list-group-item pointer"
+         (click)="onAjouterCompte()">
+        <i class="bi-plus"></i><span class="fw-light fs-6">Ajouter un compte</span>
+    </div>
+    <li class="list-group-item d-flex justify-content-between align-items-center"
+        *ngFor="let c of comptes">
+        <span>{{c.name}}<span class="pointer" (click)="onEditerCompte(c)">...</span></span>
+        <span class="badge bg-primary rounded-pill">CurrentSolde</span>
+    </li>
+</ul>
+<c-compte-edition></c-compte-edition>
