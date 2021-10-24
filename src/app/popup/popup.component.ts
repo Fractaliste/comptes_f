@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit } from '@angular/core';
-import { EventBusType } from '../services/event-bus-type';
-import { EventBusService } from '../services/event-bus.service';
+import { Modal } from 'bootstrap';
+import { BusService } from '../services/bus/bus.service';
 
 @Component({
   selector: 'c-popup',
@@ -12,17 +12,32 @@ export class PopupComponent implements OnInit {
   @Input() popupId!: string
   @Input() popupTitle!: string
 
-  constructor(private eventBus: EventBusService) { }
+  constructor(private eventBus: BusService) {
+    console.log("popup created");
+
+    eventBus.listen(BusService.PopupOpenEventType).subscribe(this.openPopup)
+  }
+
 
   ngOnInit(): void {
   }
 
   closeHandler() {
-    this.eventBus.emit(EventBusType.PopupCancel)
+    this.eventBus.emit(BusService.PopupCancelEventType)
   }
 
   saveHandler() {
-    this.eventBus.emit(EventBusType.PopupSave)
+    this.eventBus.emit(BusService.PopupSaveEventType)
+  }
+
+  openPopup(popupId: string) {
+    const element = document.getElementById(popupId)
+    if (element) {
+      var myModal = new Modal(element)
+      myModal.show()
+      console.log("modal shown");
+
+    }
   }
 
 }
