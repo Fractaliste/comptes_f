@@ -1,12 +1,15 @@
 <main class=" vh-100 d-flex flex-column">
-    <nav>
-        <ul class="nav nav-tabs">
+    <nav class="row">
+        <ul class="nav nav-tabs col">
             <li class="nav-item"
                 *ngFor="let tab of tabs">
                 <a [ngClass]="['nav-link',tab === selected? 'active':'']"
                    routerLink="/{{tab}}">{{tab|titlecase}}</a>
             </li>
         </ul>
+        <div class="col border-bottom">
+            <c-error></c-error>
+        </div>
     </nav>
     <section class="container-fluid flex-fill d-flex">
         <div class="w-100">
