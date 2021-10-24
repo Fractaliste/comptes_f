@@ -15,6 +15,7 @@ export class ErrorComponent implements OnInit {
       .subscribe(message => {
         console.error("Message reçu", message);
         this.message = message
+        setTimeout(() => this.message = undefined, 5000)
       })
   }
 
