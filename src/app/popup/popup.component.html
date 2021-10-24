@@ -1,4 +1,5 @@
-<div (hidden.bs.modal)="closeHandler()" class="modal"
+<div (hidden.bs.modal)="closeHandler()"
+     class="modal"
      id="{{popupId}}"
      tabindex="-1">
     <div class="modal-dialog">
@@ -19,8 +20,7 @@
                         data-bs-dismiss="modal">Close</button>
                 <button type="button"
                         class="btn btn-primary"
-                        (click)="saveHandler()"
-                        >Save changes</button>
+                        (click)="saveHandler()">Save changes</button>
             </div>
         </div>
     </div>

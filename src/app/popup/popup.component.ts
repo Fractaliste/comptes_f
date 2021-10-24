@@ -11,11 +11,10 @@ export class PopupComponent implements OnInit {
 
   @Input() popupId!: string
   @Input() popupTitle!: string
+  myModal?: Modal;
 
   constructor(private eventBus: BusService) {
-    console.log("popup created");
-
-    eventBus.listen(BusService.PopupOpenEventType).subscribe(this.openPopup)
+    eventBus.listen(BusService.PopupOpenEventType).subscribe(this.openPopup.bind(this))
   }
 
 
@@ -28,15 +27,16 @@ export class PopupComponent implements OnInit {
 
   saveHandler() {
     this.eventBus.emit(BusService.PopupSaveEventType)
+    if(this.myModal) {
+      this.myModal.hide()
+    }
   }
 
   openPopup(popupId: string) {
     const element = document.getElementById(popupId)
     if (element) {
-      var myModal = new Modal(element)
-      myModal.show()
-      console.log("modal shown");
-
+      this.myModal = new Modal(element)
+      this.myModal.show()
     }
   }
 
