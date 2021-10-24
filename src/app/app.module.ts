@@ -4,33 +4,45 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AccueilComponent } from './accueil/accueil.component';
-import { ComptesComponent } from './comptes/comptes.component';
+import { CompteComponent } from './compte/compte.component';
 import { BudgetComponent } from './budget/budget.component';
-import { LivreComponent } from './comptes/livre/livre.component';
-import { ListeComponent } from './comptes/liste/liste.component';
+import { LivreComponent } from './compte/livre/livre.component';
+import { ListeComponent } from './compte/liste/liste.component';
 import { PopupComponent } from './popup/popup.component';
-import { EditionComponent } from './comptes/liste/edition/edition.component';
+import { CompteEditionComponent } from './compte/edition/compte-edition.component';
 import { FormsModule } from '@angular/forms';
-import { EventBusService } from './services/event-bus.service';
 import { BackendService } from './services/backend.service';
+import { BusService } from './services/bus/bus.service';
+import { ItemComponent } from './compte/liste/item/item.component';
+import { ErrorComponent } from './error/error.component';
+import { LigneComponent } from './compte/livre/ligne/ligne.component';
+import { LigneEditionComponent } from './compte/livre/ligne-edition/ligne-edition.component';
+import { CategorieComponent } from './categorie/categorie.component';
+import { CategorieEditionComponent } from './categorie/categorie-edition/categorie-edition.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AccueilComponent,
-    ComptesComponent,
+    CompteComponent,
     BudgetComponent,
     LivreComponent,
     ListeComponent,
     PopupComponent,
-    EditionComponent
+    CompteEditionComponent,
+    ItemComponent,
+    ErrorComponent,
+    LigneComponent,
+    LigneEditionComponent,
+    CategorieComponent,
+    CategorieEditionComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule
   ],
-  providers: [EventBusService, BackendService],
+  providers: [BusService, BackendService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
