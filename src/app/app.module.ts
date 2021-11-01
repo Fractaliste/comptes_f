@@ -13,7 +13,6 @@ import { CompteEditionComponent } from './compte/edition/compte-edition.componen
 import { FormsModule } from '@angular/forms';
 import { BackendService } from './services/backend.service';
 import { BusService } from './services/bus/bus.service';
-import { ItemComponent } from './compte/liste/item/item.component';
 import { ErrorComponent } from './error/error.component';
 import { LigneEditionComponent } from './compte/livre/ligne-edition/ligne-edition.component';
 import { CategorieComponent } from './categorie/categorie.component';
@@ -29,7 +28,6 @@ import { CategorieEditionComponent } from './categorie/categorie-edition/categor
     ListeComponent,
     PopupComponent,
     CompteEditionComponent,
-    ItemComponent,
     ErrorComponent,
     LigneEditionComponent,
     CategorieComponent,
