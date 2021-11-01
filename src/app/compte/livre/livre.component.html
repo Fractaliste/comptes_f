@@ -1,1 +1,16 @@
+<div class="row"
+     *ngFor="let l of lignes">
+    <ng-template *ngTemplateOutlet="LigneRef; context: {$implicit: {l:l}}">
+    </ng-template>
+</div>
 <c-ligne-edition></c-ligne-edition>
+
+<ng-template #LigneRef
+             let-context>
+    <div class="col">{{context.l.date | date: 'dd/MM/YY'}}</div>
+    <div class="col">{{context.l.tier.name}}</div>
+    <div class="col">{{context.l.categorie.name}}</div>
+    <div class="col">{{context.l.note}}</div>
+    <div class="col">{{context.l.valeur}}</div>
+    <div class="col">{{context.l.rapprochement}}</div>
+</ng-template>

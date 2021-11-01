@@ -13,7 +13,7 @@ export class LivreComponent implements OnInit {
   lignes: Ligne[] = []
 
   constructor(private backendService: BackendService, private busService: BusService) {
-    backendService.getAll(Ligne).then(lignes => this.lignes = lignes)
+    backendService.getLignesByCompte(2).then(lignes => this.lignes = lignes)
   }
 
   ngOnInit(): void {
