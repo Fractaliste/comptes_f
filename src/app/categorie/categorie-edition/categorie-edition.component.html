@@ -1,1 +1,24 @@
-<p>categorie-edition works!</p>
+<c-popup [popupId]="popupId"
+         [popupTitle]="'&Aacute;dition d\'un compte'">
+    <div *ngIf="model">
+        <div class="mb-3">
+            <label for="nameCat"
+                   class="form-label">Intitulé de la catégorie</label>
+            <input type="text"
+                   class="form-control"
+                   id="nameCat"
+                   [(ngModel)]="model.name">
+        </div>
+        <div class="mb-3">
+            <label for="typeCat"
+                   class="form-label">Intitulé de la catégorie</label>
+            <select class="form-select"
+                    [(ngModel)]="model.type">
+                <option selected>Open this select menu</option>
+                <option value="FIXE">FIXE</option>
+                <option value="COURANTE">COURANTE</option>
+                <option value="EXCEPTIONNELLE">EXCEPTIONNELLE</option>
+            </select>
+        </div>
+    </div>
+</c-popup>
