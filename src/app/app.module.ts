@@ -15,7 +15,6 @@ import { BackendService } from './services/backend.service';
 import { BusService } from './services/bus/bus.service';
 import { ItemComponent } from './compte/liste/item/item.component';
 import { ErrorComponent } from './error/error.component';
-import { LigneComponent } from './compte/livre/ligne/ligne.component';
 import { LigneEditionComponent } from './compte/livre/ligne-edition/ligne-edition.component';
 import { CategorieComponent } from './categorie/categorie.component';
 import { CategorieEditionComponent } from './categorie/categorie-edition/categorie-edition.component';
@@ -32,7 +31,6 @@ import { CategorieEditionComponent } from './categorie/categorie-edition/categor
     CompteEditionComponent,
     ItemComponent,
     ErrorComponent,
-    LigneComponent,
     LigneEditionComponent,
     CategorieComponent,
     CategorieEditionComponent
