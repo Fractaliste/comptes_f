@@ -11,12 +11,20 @@ import { Ligne } from '../../../../../comptes_api/lib/esm';
 export class LivreComponent implements OnInit {
 
   lignes: Ligne[] = []
+  selectedLine: Ligne;
 
   constructor(private backendService: BackendService, private busService: BusService) {
     backendService.getLignesByCompte(2).then(lignes => this.lignes = lignes)
+    this.selectedLine = new Ligne()
   }
 
   ngOnInit(): void {
+  }
+
+  lineClicked(l: Ligne) {
+    this.selectedLine = l
+    console.log("clicked",this.selectedLine);
+    
   }
 
 }

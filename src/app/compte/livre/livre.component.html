@@ -1,16 +1,27 @@
-<div class="row"
-     *ngFor="let l of lignes">
-    <ng-template *ngTemplateOutlet="LigneRef; context: {$implicit: {l:l}}">
-    </ng-template>
-</div>
-<c-ligne-edition></c-ligne-edition>
+<c-ligne-edition [ligne]="selectedLine"></c-ligne-edition>
+<section class="row small">
+    <div class="col header">Date</div>
+    <div class="col-4 header">Tier</div>
+    <div class="col-2 header">Catégorie</div>
+    <div class="col-2 header">Note</div>
+    <div class="col header">Montant</div>
+    <div class="col header">Rapproché</div>
+    <div class="col header">Hors budget</div>
+    <div class="w-100"></div>
+    <ng-container *ngFor="let ligne of lignes">
+        <ng-template *ngTemplateOutlet="LigneRef; context: {$implicit: {l:ligne}}">
+        </ng-template>
+    </ng-container>
+</section>
 
 <ng-template #LigneRef
              let-context>
-    <div class="col">{{context.l.date | date: 'dd/MM/YY'}}</div>
-    <div class="col">{{context.l.tier.name}}</div>
-    <div class="col">{{context.l.categorie.name}}</div>
-    <div class="col">{{context.l.note}}</div>
-    <div class="col">{{context.l.valeur}}</div>
-    <div class="col">{{context.l.rapprochement}}</div>
+    <div (click)="lineClicked(context.l)" class="line date col">{{context.l.date | date: 'dd/MM/YY'}}</div>
+    <div class="line col-4">{{context.l.tier.name}}</div>
+    <div class="line col-2">{{context.l.categorie.name}}</div>
+    <div class="line col-2">{{context.l.note}}</div>
+    <div class="line montant col">{{context.l.valeur | number:'1.2-2':'fr'}} €</div>
+    <div class="line col">{{context.l.rapprochement}}</div>
+    <div class="line col">{{context.l.isHorsBudget}}</div>
+    <div class="w-100"></div>
 </ng-template>
