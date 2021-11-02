@@ -1,19 +1,26 @@
 <div class="input-group input-group-sm">
        <input class="form-control form-control-sm"
               type="date"
-              [(ngModel)]="ligne.date" />
+              [valueAsDate]="date"
+              (change)="onDateChange($event)">
        <input class="form-control"
-              type="text"
+              list="tierOptions"
               placeholder="Tier"
               [ngModel]="ligne.tier?.name"
-              (ngModelChange)="onTierChange($event)">
+              (ngModelChange)="onTierChange($event)"
+              (click)="selectTarget($event)">
+       <datalist id="tierOptions">
+              <ng-container *ngFor="let t of tiers">
+                     <option value="{{t.name}}">{{t.name}}</option>
+              </ng-container>
+       </datalist>
        <input class="form-control"
-              list="datalistOptions"
-              id="exampleDataList"
+              list="categorieOptions"
               placeholder="Catégorie"
               [ngModel]="ligne.categorie?.name"
-              (ngModelChange)="onCategorieChange($event)">
-       <datalist id="datalistOptions">
+              (ngModelChange)="onCategorieChange($event)"
+              (click)="selectTarget($event)">
+       <datalist id="categorieOptions">
               <ng-container *ngFor="let c of categories">
                      <option value="{{c.name}}">{{c.name}}</option>
               </ng-container>
@@ -21,11 +28,13 @@
        <input class="form-control"
               type="text"
               placeholder="Note"
-              [(ngModel)]="ligne.note" />
+              [(ngModel)]="ligne.note"
+              (click)="selectTarget($event)" />
        <input class="form-control form-control-sm"
               type="number"
               placeholder="Montant"
-              [(ngModel)]="ligne.valeur" />
+              [(ngModel)]="ligne.valeur"
+              (click)="selectTarget($event)" />
        <span class="input-group-text">Non pointé</span>
        <div class="input-group-text">
               <span class="very-small">Inclus<br />au budget</span>
@@ -34,8 +43,10 @@
                      checked>
        </div>
        <button class="btn btn-success"
+               (click)='onSave()'
                type="button">Sauvegarder</button>
        <button class="input-group-text btn-secondary"
+               (click)='onCancel()'
                title="Annuler"><i class="bi bi-backspace"></i></button>
 
 </div>

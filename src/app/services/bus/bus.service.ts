@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { Compte } from '../../../../../comptes_api/lib/esm';
-import { Categorie } from '../../../../../comptes_api/lib/esm';
+import { Categorie, Compte, Ligne } from '../../../../../comptes_api/lib/esm';
 
 class EventType<T> {
 
@@ -22,6 +21,7 @@ export class BusService {
   static EditionCompteEventType = new EventType<Compte>("EditionCompteEventType")
   static EditionCategorieEventType = new EventType<Categorie>("EditionCategorieEventType")
   static CategorieRefreshEventType = new EventType<void>("CategorieRefreshEventType")
+  static LigneSelectedEventType = new EventType<Ligne>("LigneSelectedEventType");
 
   constructor() {
     let k = Object.entries(BusService)
