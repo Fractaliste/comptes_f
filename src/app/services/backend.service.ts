@@ -31,11 +31,11 @@ export class BackendService {
       })
   }
 
-  save<T extends object>(entity: T, clazz: { new(): T }): Promise<any>;
+  save<T extends object>(entity: T, clazz: { new(): T }): Promise<T>;
 
-  save<T extends object>(entity: T): Promise<any>;
+  save<T extends object>(entity: T): Promise<T>;
 
-  save<T extends object>(entity: T, clazz?: { new(): T }): Promise<any> {
+  public save<T extends object>(entity: T, clazz?: { new(): T }): Promise<T> {
     let endpoint: string
     if (clazz) {
       endpoint = clazz.name.toLocaleLowerCase()
@@ -43,33 +43,20 @@ export class BackendService {
       endpoint = entity.constructor.name.toLocaleLowerCase()
     }
 
-    return fetch("/api/" + endpoint,
-      { method: "POST", body: JSON.stringify(entity), headers: { "Content-Type": "application/json" } })
-      .then(res => {
-        if (!res.ok) {
-          this.busService.emit(BusService.ErrorMessageEventType, "Erreur lors de la sauvegarde")
-        }
-      })
-      .catch((error) => {
-        this.busService.emit(BusService.ErrorMessageEventType, "Erreur lors de la sauvegarde")
-      })
+    return this._fetch("/api/" + endpoint, "POST", entity)
   }
 
-  getAll<T>(clazz: { new(): T }): Promise<T[]> {
+  public getAll<T>(clazz: { new(): T }): Promise<T[]> {
     return this._fetch("/api/" + clazz.name.toLocaleLowerCase(), "GET")
       .then((jsonArray: T[]) => {
         return jsonArray.map(item => Object.setPrototypeOf(item, clazz.prototype))
       })
   }
 
-
-  safeDeleteCategorie(categorie: Categorie) {
+  public safeDeleteCategorie(categorie: Categorie) {
     return this._fetch("/api/categorie", "DELETE", categorie)
   }
 
-  /**
-   * getLignesByCompte
-      */
   public getLignesByCompte(compte: Compte | number) {
     return this._fetch("/api/ligne/" + (compte instanceof Compte ? compte.id : compte), "GET")
   }
