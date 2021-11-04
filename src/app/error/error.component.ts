@@ -12,9 +12,13 @@ export class ErrorComponent implements OnInit {
 
   constructor(busService: BusService) {
     busService.listen(BusService.ErrorMessageEventType)
-      .subscribe(message => {
-        console.error("Message reçu", message);
-        this.message = message
+      .subscribe(erreur => {
+        if (erreur instanceof Error) {
+          this.message = erreur.message
+        } else {
+          this.message = erreur
+        } 
+        console.error("Erreur catched", erreur);
         setTimeout(() => this.message = undefined, 5000)
       })
   }

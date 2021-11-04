@@ -1,4 +1,4 @@
-import { LOCALE_ID, NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule, ErrorHandler as AngularErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import localeFr from '@angular/common/locales/fr';
 import { registerLocaleData } from '@angular/common';
@@ -19,6 +19,7 @@ import { ErrorComponent } from './error/error.component';
 import { LigneEditionComponent } from './compte/livre/ligne-edition/ligne-edition.component';
 import { CategorieComponent } from './categorie/categorie.component';
 import { CategorieEditionComponent } from './categorie/categorie-edition/categorie-edition.component';
+import { ErrorHandler } from './error/error-handler';
 
 registerLocaleData(localeFr);
 
@@ -42,7 +43,12 @@ registerLocaleData(localeFr);
     AppRoutingModule,
     FormsModule
   ],
-  providers: [BusService, BackendService, { provide: LOCALE_ID, useValue: 'fr-FR' },],
+  providers: [
+    BusService
+    , BackendService
+    , { provide: LOCALE_ID, useValue: 'fr-FR' }
+    , { provide: AngularErrorHandler, useClass: ErrorHandler }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
