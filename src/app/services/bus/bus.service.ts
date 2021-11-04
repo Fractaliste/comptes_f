@@ -21,7 +21,10 @@ export class BusService {
   static EditionCompteEventType = new EventType<Compte>("EditionCompteEventType")
   static EditionCategorieEventType = new EventType<Categorie>("EditionCategorieEventType")
   static CategorieRefreshEventType = new EventType<void>("CategorieRefreshEventType")
+  static LigneSelectionRequetedEventType = new EventType<Ligne>("LigneSelectionRequetedEventType");
   static LigneSelectedEventType = new EventType<Ligne>("LigneSelectedEventType");
+  static LigneSavedEventType = new EventType<Ligne>("LigneSavedEventType");
+  static LigneDeletedEventType = new EventType<number>("LigneDeletedEventType");
 
   constructor() {
     let k = Object.entries(BusService)

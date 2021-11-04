@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Categorie, Compte } from '../../../../comptes_api/lib/esm';
+import { Categorie, Compte, Ligne } from '../../../../comptes_api/lib/esm';
 import { BusService } from './bus/bus.service';
 
 @Injectable({
@@ -55,6 +55,10 @@ export class BackendService {
 
   public safeDeleteCategorie(categorie: Categorie) {
     return this._fetch("/api/categorie", "DELETE", categorie)
+  }
+
+  public safeDeleteLigne(ligne: Ligne) {
+    return this._fetch("/api/ligne", "DELETE", ligne)
   }
 
   public getLignesByCompte(compte: Compte | number) {
