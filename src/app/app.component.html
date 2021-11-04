@@ -1,13 +1,13 @@
 <main class="container-fluid d-flex flex-column">
     <nav class="row">
-        <ul class="nav nav-tabs col">
+        <ul class="col nav nav-tabs border-2">
             <li class="nav-item"
                 *ngFor="let tab of tabs">
                 <a [ngClass]="['nav-link',tab === selected? 'active':'']"
                    routerLink="/{{tab}}">{{tab|titlecase}}</a>
             </li>
         </ul>
-        <div class="col border-bottom">
+        <div class="col border-bottom border-2">
             <c-error></c-error>
         </div>
     </nav>
