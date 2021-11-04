@@ -1,3 +1,62 @@
+// SASS style sheet */
+// Palette color codes */
+// Palette URL: http://paletton.com/#uid=70v0u0kiGrK8GJmdUxamSnSqUj2 */
+
+// Feel free to copy&paste color codes to your application */
+
+// As hex codes */
+
+$color-primary-0: #DD985C // Main Primary color */
+$color-primary-1: #FFDABA
+$color-primary-2: #FFC390
+$color-primary-3: #BE7536
+$color-primary-4: #985318
+
+$color-secondary-1-0: #DDB35C // Main Secondary color (1) */
+$color-secondary-1-1: #FFE8BA
+$color-secondary-1-2: #FFDB90
+$color-secondary-1-3: #BE9236
+$color-secondary-1-4: #986E18
+
+$color-secondary-2-0: #475D94 // Main Secondary color (2) */
+$color-secondary-2-1: #9EADD1
+$color-secondary-2-2: #6B7EAE
+$color-secondary-2-3: #2E4680
+$color-secondary-2-4: #192F66
+
+$color-secondary-3-0: #48AE4F // Main Secondary color (3) */
+$color-secondary-3-1: #A4E1A8
+$color-secondary-3-2: #73CB78
+$color-secondary-3-3: #2B9632
+$color-secondary-3-4: #13771A
+
+$color-secondary-4-0: #DD5F5C // Main Secondary color (4) */
+$color-secondary-4-1: #FFBCBA
+$color-secondary-4-2: #FF9390
+$color-secondary-4-3: #BE3A36
+$color-secondary-4-4: #981B18
+
+$color-complement-0: #388286 // Main Complement color */
+$color-complement-1: #92C5C7
+$color-complement-2: #5A9B9E
+$color-complement-3: #216F73
+$color-complement-4: #0F585C
+
+$warning: $color-secondary-1-0
+$primary: $color-secondary-2-0
+$success: $color-secondary-3-0
+$danger: $color-secondary-4-0
+$info: $color-complement-0
+
+$input-placeholder-color: $color-complement-4
+$body-bg: $color-primary-0
+$list-group-bg: $body-bg
+
+$border-color: $color-primary-4
+$nav-tabs-border-color: $border-color
+$nav-tabs-link-hover-border-color: $border-color
+$nav-tabs-link-active-border-color: $border-color
+
 /* You can add global styles to this file, and also import other style files */
 @import "~bootstrap/scss/bootstrap"
 @import "~bootstrap-icons/font/bootstrap-icons.css"
@@ -5,4 +64,4 @@
 .pointer
     cursor: pointer
     &:hover
-        color: grey
+        color: $color-secondary-2-4
