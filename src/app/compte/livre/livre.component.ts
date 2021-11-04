@@ -11,42 +11,43 @@ import { Ligne, Tier } from '../../../../../comptes_api/lib/esm';
 export class LivreComponent implements OnInit {
 
   lignes: Ligne[] = []
-  selectedLine: Ligne;
+  selectedLine?: Ligne;
   compteId = 2
 
   constructor(private backendService: BackendService, private busService: BusService) {
     backendService.getLignesByCompte(this.compteId).then(lignes => this.lignes = lignes)
-    this.selectedLine = new Ligne()
+    busService.listen(BusService.LigneSelectedEventType).subscribe(l => this.selectedLigneHandler(l))
+    busService.listen(BusService.LigneSavedEventType).subscribe(l => this.savedLigneHandler(l))
+    busService.listen(BusService.LigneDeletedEventType).subscribe(l => this.deletedLigneHandler(l))
   }
 
   ngOnInit(): void {
   }
 
-  selectedLineHandler(l: Ligne) {
+  selectedLigneHandler(l: Ligne) {
     if (l.id) {
       let index = this.lignes.findIndex(ligne => ligne.id === l.id)
       if (this.lignes[index] !== l) {
         this.lignes.splice(index, 1, l)
       }
-      console.log("found", this.lignes[index], this.lignes[index] === l);
-
-
     }
-
 
     this.selectedLine = l
   }
 
-  lineClicked(l?: Ligne) {
-    this.busService.emit(BusService.LigneSelectedEventType, l ? l : new Ligne())
-  }
-
-  supprimerLigne() {
-    console.log("supprimerLigne", this.selectedLine, Boolean(!this.selectedLine.id))
-    if (!this.selectedLine.id) {
-      this.lineClicked()
+  deletedLigneHandler(lineId: number): void {
+    let index = this.lignes.findIndex(ligne => ligne.id === lineId)
+    if (this.lignes[index]) {
+      this.lignes.splice(index, 1)
     }
   }
 
+  clickedLigneHandler(l: Ligne) {
+    this.busService.emit(BusService.LigneSelectionRequetedEventType, l)
+  }
+
+  savedLigneHandler(l: Ligne): void {
+    throw new Error('Method not implemented.');
+  }
 
 }

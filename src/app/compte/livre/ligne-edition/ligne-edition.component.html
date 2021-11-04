@@ -1,52 +1,81 @@
-<div class="input-group input-group-sm">
-       <input class="form-control form-control-sm"
-              type="date"
-              [valueAsDate]="date"
-              (change)="onDateChange($event)">
-       <input class="form-control"
-              list="tierOptions"
-              placeholder="Tier"
-              [ngModel]="ligne.tier?.name"
-              (ngModelChange)="onTierChange($event)"
-              (click)="selectTarget($event)">
-       <datalist id="tierOptions">
-              <ng-container *ngFor="let t of tiers">
-                     <option value="{{t.name}}">{{t.name}}</option>
-              </ng-container>
-       </datalist>
-       <input class="form-control"
-              list="categorieOptions"
-              placeholder="Catégorie"
-              [ngModel]="ligne.categorie?.name"
-              (ngModelChange)="onCategorieChange($event)"
-              (click)="selectTarget($event)">
-       <datalist id="categorieOptions">
-              <ng-container *ngFor="let c of categories">
-                     <option value="{{c.name}}">{{c.name}}</option>
-              </ng-container>
-       </datalist>
-       <input class="form-control"
-              type="text"
-              placeholder="Note"
-              [(ngModel)]="ligne.note"
-              (click)="selectTarget($event)" />
-       <input class="form-control form-control-sm"
-              type="number"
-              placeholder="Montant"
-              [(ngModel)]="ligne.valeur"
-              (click)="selectTarget($event)" />
-       <span class="input-group-text">Non pointé</span>
-       <div class="input-group-text">
-              <span class="very-small">Inclus<br />au budget</span>
-              <input class="form-check-input mt-0 ms-2"
-                     type="checkbox"
-                     checked>
+<section class="border rounded my-2">
+       <div class="input-group input-group-sm">
+              <button class="btn btn-info btn-sm"
+                      [disabled]="hasUncommitedChange()"
+                      (click)="newLigneHandler()"
+                      title="Ajout d'une nouvelle ligne">
+                     <i class="bi bi-node-plus pe-2"></i>
+                     <span>Nouvelle ligne</span>
+              </button>
+              <button class="btn btn-success btn-sm"
+                      (click)="sauvegarderLigneHandler()"
+                      title="Sauvegarder la ligne">
+                     <i class="bi bi-save pe-2"></i>
+                     <span>Sauvegarder</span>
+              </button>
+              <button class="btn btn-secondary btn-sm"
+                      [disabled]="! hasUncommitedChange()"
+                      (click)="cancelLigneHandler()"
+                      title="Annuler les modifications">
+                     <i class="bi bi-backspace pe-2"></i>
+                     <span>Annuler</span>
+              </button>
+              <button class="btn btn-danger btn-sm"
+                      (click)="supprimerLigneHandler()"
+                      title="Supprimer la ligne">
+                     <i class="bi bi-node-minus pe-2"></i>
+                     <span>Supprimer</span>
+              </button>
        </div>
-       <button class="btn btn-success"
-               (click)='onSave()'
-               type="button">Sauvegarder</button>
-       <button class="input-group-text btn-secondary"
-               (click)='onCancel()'
-               title="Annuler"><i class="bi bi-backspace"></i></button>
+       <div class="input-group input-group-sm">
+              <input class="form-control form-control-sm"
+                     type="date"
+                     [valueAsDate]="date"
+                     (change)="onDateChange($event)">
+              <input class="form-control"
+                     list="tierOptions"
+                     placeholder="Tier"
+                     [ngModel]="ligne.tier?.name"
+                     (ngModelChange)="onTierChange($event)"
+                     (click)="selectTarget($event)">
+              <datalist id="tierOptions">
+                     <ng-container *ngFor="let t of tiers">
+                            <option value="{{t.name}}">{{t.name}}</option>
+                     </ng-container>
+              </datalist>
+              <input class="form-control"
+                     list="categorieOptions"
+                     placeholder="Catégorie"
+                     [ngModel]="ligne.categorie?.name"
+                     (ngModelChange)="onCategorieChange($event)"
+                     (click)="selectTarget($event)"
+                     [class.is-invalid]="!isCategorieValid()"
+                     >
+              <datalist id="categorieOptions">
+                     <ng-container *ngFor="let c of categories">
+                            <option value="{{c.name}}">{{c.name}}</option>
+                     </ng-container>
+              </datalist>
+              <input class="form-control"
+                     type="text"
+                     placeholder="Note"
+                     [(ngModel)]="ligne.note"
+                     (click)="selectTarget($event)" />
+              <input class="form-control form-control-sm"
+                     type="number"
+                     placeholder="Montant"
+                     [(ngModel)]="ligne.valeur"
+                     (click)="selectTarget($event)" />
+              <span class="input-group-text">Non pointé</span>
+              <div class="input-group-text">
+                     <span class="very-small">Inclus<br />au budget</span>
+                     <input class="form-check-input mt-0 ms-2"
+                            type="checkbox"
+                            checked>
+              </div>
+              <button class="btn btn-success"
+                      (click)="sauvegarderLigneHandler()"
+                      type="button">Sauvegarder</button>
 
-</div>
+       </div>
+</section>

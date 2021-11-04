@@ -1,20 +1,4 @@
-<section class="border border-info rounded my-2">
-     <div class="input-group">
-          <button class="btn btn-info btn-sm"
-                  (click)="lineClicked()"
-                  title="Ajout d'une nouvelle ligne">
-               <i class="bi bi-node-plus pe-2"></i>
-               <span>Nouvelle ligne</span>
-          </button>
-          <button class="btn btn-danger btn-sm"
-                  (click)="supprimerLigne()"
-                  title="Supprimer la ligne">
-               <i class="bi bi-node-minus pe-2"></i>
-               <span>Supprimer</span>
-          </button>
-     </div>
-     <c-ligne-edition (ligneEvent)="selectedLineHandler($event)" [compteId]="compteId"></c-ligne-edition>
-</section>
+<c-ligne-edition [compteId]="compteId"></c-ligne-edition>
 <section class="row small">
      <div class="col header">Date</div>
      <div class="col-4 header">Tier</div>
@@ -33,19 +17,25 @@
 <ng-template #LigneRef
              let-context>
      <div [class.selected-line]="context.l === selectedLine"
-          class="line date col"
-          (click)="lineClicked(context.l)">{{context.l.date | date: 'dd/MM/YY'}}</div>
+          (click)="clickedLigneHandler(context.l)"
+          class="line date col">{{context.l.date | date: 'dd/MM/YY'}}</div>
      <div [class.selected-line]="context.l === selectedLine"
+          (click)="clickedLigneHandler(context.l)"
           class="line col-4">{{context.l.tier.name}}</div>
      <div [class.selected-line]="context.l === selectedLine"
+          (click)="clickedLigneHandler(context.l)"
           class="line col-2">{{context.l.categorie.name}}</div>
      <div [class.selected-line]="context.l === selectedLine"
+          (click)="clickedLigneHandler(context.l)"
           class="line col-2">{{context.l.note}}</div>
      <div [class.selected-line]="context.l === selectedLine"
+          (click)="clickedLigneHandler(context.l)"
           class="line montant col">{{context.l.valeur | number:'1.2-2':'fr'}} €</div>
      <div [class.selected-line]="context.l === selectedLine"
+          (click)="clickedLigneHandler(context.l)"
           class="line col">{{context.l.rapprochement}}</div>
      <div [class.selected-line]="context.l === selectedLine"
+          (click)="clickedLigneHandler(context.l)"
           class="line col">{{context.l.isHorsBudget}}</div>
      <div class="w-100"></div>
 </ng-template>

@@ -10,11 +10,9 @@ import { Categorie, Compte, Ligne, Tier } from '../../../../../../comptes_api/li
 })
 export class LigneEditionComponent {
 
-  @Output() ligneEvent = new EventEmitter<Ligne>();
-
   @Input() compteId!: number
   ligne: Ligne = new Ligne()
-  serializedLine = ""
+  serializedLine = JSON.stringify({})
   categories: Categorie[] = []
   date?: Date;
   tiers: Tier[] = []
@@ -24,23 +22,37 @@ export class LigneEditionComponent {
     backendService.getAll(Tier).then(tiers => this.tiers = tiers)
 
 
-    this.eventBus.listen(BusService.LigneSelectedEventType).subscribe(ligne => {
-
-      if (this.serializedLine === "" || JSON.stringify(this.ligne) === this.serializedLine) {
-        this.setCurrentLigne(ligne);
-      } else {
+    this.eventBus.listen(BusService.LigneSelectionRequetedEventType).subscribe(ligne => {
+      if (this.hasUncommitedChange()) {
         console.debug("Des modifs doivent être commitées", this.serializedLine, JSON.stringify(this.ligne));
         this.eventBus.emit(BusService.ErrorMessageEventType, "Les modifications de la ligne n'ont pas été sauvegardées")
+      } else {
+        this.setCurrentLigne(ligne);
       }
     })
 
   }
 
+  public hasUncommitedChange() {
+    console.log("hasUncommitedChange", JSON.stringify(this.ligne), this.serializedLine);
+
+    return (!this.isCategorieValid()) || JSON.stringify(this.ligne) !== this.serializedLine;
+  }
+
+  isCategorieValid(): boolean {
+    if (this.ligne.categorie) {
+      return Boolean(this.ligne.categorie.id)
+    }
+    return true
+  }
+
   private setCurrentLigne(ligne: Ligne) {
+    console.log("setCurrentLigne", ligne);
+
     this.ligne = ligne;
     this.date = new Date(ligne.date);
     this.serializedLine = JSON.stringify(this.ligne);
-    this.ligneEvent.emit(this.ligne);
+    this.eventBus.emit(BusService.LigneSelectedEventType, this.ligne)
   }
 
   /**
@@ -58,6 +70,9 @@ export class LigneEditionComponent {
     const newCat = this.categories.find(c => c.name === catName)
     if (newCat) {
       this.ligne.categorie = newCat
+    } else {
+      this.ligne.categorie = new Categorie()
+      this.ligne.categorie.name = catName
     }
   }
 
@@ -78,8 +93,8 @@ export class LigneEditionComponent {
     }
   }
 
-  onCancel() {
-    if (this.serializedLine) {
+  cancelLigneHandler() {
+    if (this.ligne.id) {
       const previousLigne = JSON.parse(this.serializedLine);
       Object.getOwnPropertyNames(this.ligne)
         .forEach(key => {
@@ -89,19 +104,47 @@ export class LigneEditionComponent {
         })
       this.ligne = Object.assign(this.ligne, previousLigne)
     } else {
-      this.ligne = new Ligne()
-      this.ligneEvent.emit(this.ligne)
+      this.newLigneHandler(true)
     }
   }
 
-  onSave() {
+  newLigneHandler(force: boolean = false) {
+    if (force || !this.hasUncommitedChange()) {
+      this.setCurrentLigne(new Ligne())
+    }
+  }
 
+  supprimerLigneHandler() {
+    if (!this.ligne.id) {
+      this.newLigneHandler(true)
+      return
+    }
+
+    this.backendService.safeDeleteLigne(this.ligne)
+      .then((id: number) => {
+        this.newLigneHandler(true)
+        this.eventBus.emit(BusService.LigneDeletedEventType, id)
+      })
+  }
+
+  sauvegarderLigneHandler() {
     if (!this.ligne.compte) {
       this.ligne.compte = new Compte()
       this.ligne.compte.id = this.compteId
     }
 
-      console.log("Send", this.ligne);
+    if (!this.ligne.tier
+      || !this.ligne.tier.name
+      || !this.ligne.categorie
+      || !this.isCategorieValid()
+      || !this.ligne.valeur
+      || !this.ligne.date
+    ) {
+      this.eventBus.emit(BusService.ErrorMessageEventType, "Champs obligatoires manquants !")
+      return
+    }
+
+    console.log("Sauvegarde de la ligne", this.ligne);
     const saveLigneCallback = () => this.backendService
       .save(this.ligne, Ligne)
       .then(ligne => {
