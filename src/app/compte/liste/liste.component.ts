@@ -11,12 +11,23 @@ import { Compte } from '../../../../../comptes_api/lib/esm';
 export class ListeComponent implements OnInit {
 
   comptes: Compte[] = [];
+  soldes: any = {}
 
   constructor(private backendService: BackendService, private busService: BusService) { }
 
   ngOnInit(): void {
     this.backendService.getAll(Compte).then(comptes => {
       this.comptes = comptes
+      this.miseAJourSoldes()
+    })
+    this.busService.listen(BusService.LigneSavedEventType).subscribe(() => this.miseAJourSoldes())
+  }
+
+  private miseAJourSoldes() {
+    this.comptes.forEach(c => {
+      this.backendService.getSoldeByCompte(c).then((solde: any) => {
+        this.soldes[c.id] = solde
+      })
     })
   }
 

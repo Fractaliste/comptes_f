@@ -20,6 +20,8 @@ import { LigneEditionComponent } from './compte/livre/ligne-edition/ligne-editio
 import { CategorieComponent } from './categorie/categorie.component';
 import { CategorieEditionComponent } from './categorie/categorie-edition/categorie-edition.component';
 import { ErrorHandler } from './error/error-handler';
+import { TotalPipe } from './pipe/total.pipe';
+import { EuroPipe } from './pipe/euro.pipe';
 
 registerLocaleData(localeFr);
 
@@ -36,7 +38,9 @@ registerLocaleData(localeFr);
     ErrorComponent,
     LigneEditionComponent,
     CategorieComponent,
-    CategorieEditionComponent
+    CategorieEditionComponent,
+    TotalPipe,
+    EuroPipe
   ],
   imports: [
     BrowserModule,

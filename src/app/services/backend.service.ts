@@ -9,7 +9,19 @@ export class BackendService {
 
   constructor(private busService: BusService) { }
 
-  private _fetch(path: string, method: "GET" | "POST" | "DELETE", body?: object): Promise<any> {
+  private serializeValeur(o: any) {
+    if (o.valeur) {
+      o.valeur = o.valeur * 100
+    }
+  }
+
+  private deserializeValeur(o: any) {
+    if (o.valeur) {
+      o.valeur = o.valeur * 100
+    }
+  }
+
+  private _fetch(path: string, method: "GET" | "POST" | "DELETE", body?: any): Promise<any> {
     const params: RequestInit = { method: method, headers: { "Content-Type": "application/json" } }
     if (body) {
       params.body = JSON.stringify(body)
@@ -65,4 +77,7 @@ export class BackendService {
     return this._fetch("/api/ligne/" + (compte instanceof Compte ? compte.id : compte), "GET")
   }
 
+  public getSoldeByCompte(c: Compte) {
+    return this._fetch("/api/compte/solde/" + c.id, "GET")
+  }
 }

@@ -1,9 +1,11 @@
-<c-ligne-edition [compteId]="compteId"></c-ligne-edition>
+<c-ligne-edition [compteId]="compteId"
+                 [total]="(lignesForTotal.length>0 ? lignesForTotal : lignes) | total | euro"></c-ligne-edition>
 <section class="row small">
      <div class="col header">Date</div>
-     <div class="col-4 header">Tier</div>
+     <div class="col-3 header">Tier</div>
      <div class="col-2 header">Catégorie</div>
      <div class="col-2 header">Note</div>
+     <div class="col header">N° chèque</div>
      <div class="col header">Montant</div>
      <div class="col header">Rapproché</div>
      <div class="col header">Hors budget</div>
@@ -21,7 +23,7 @@
           class="line date col">{{context.l.date | date: 'dd/MM/YY'}}</div>
      <div [class.selected-line]="context.l === selectedLine"
           (click)="clickedLigneHandler(context.l)"
-          class="line col-4">{{context.l.tier.name}}</div>
+          class="line col-3">{{context.l.tier.name}}</div>
      <div [class.selected-line]="context.l === selectedLine"
           (click)="clickedLigneHandler(context.l)"
           class="line col-2">{{context.l.categorie.name}}</div>
@@ -30,7 +32,10 @@
           class="line col-2">{{context.l.note}}</div>
      <div [class.selected-line]="context.l === selectedLine"
           (click)="clickedLigneHandler(context.l)"
-          class="line montant col">{{context.l.valeur | number:'1.2-2':'fr'}} €</div>
+          class="line col">{{context.l.numeroCheque}}</div>
+     <div [class.selected-line]="context.l === selectedLine"
+          (click)="clickedLigneHandler(context.l)"
+          class="line montant col">{{context.l.valeur | euro}}</div>
      <div [class.selected-line]="context.l === selectedLine"
           (click)="clickedLigneHandler(context.l)"
           class="line col">{{context.l.rapprochement}}</div>

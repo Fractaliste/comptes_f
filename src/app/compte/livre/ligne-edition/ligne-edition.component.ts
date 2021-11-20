@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { BackendService } from 'src/app/services/backend.service';
 import { BusService } from 'src/app/services/bus/bus.service';
 import { Categorie, Compte, Ligne, Tier } from '../../../../../../comptes_api/lib/esm';
@@ -16,8 +16,12 @@ export class LigneEditionComponent {
   categories: Categorie[] = []
   date?: Date;
   tiers: Tier[] = []
+  valeur?: number
 
-  constructor(private eventBus: BusService, private backendService: BackendService) {
+  @Input()
+  total = ""
+
+  constructor(private eventBus: BusService, private backendService: BackendService, private ref: ChangeDetectorRef) {
     backendService.getAll(Categorie).then(c => this.categories = c)
     backendService.getAll(Tier).then(tiers => this.tiers = tiers)
 
@@ -34,8 +38,6 @@ export class LigneEditionComponent {
   }
 
   public hasUncommitedChange() {
-    console.log("hasUncommitedChange", JSON.stringify(this.ligne), this.serializedLine);
-
     return (!this.isCategorieValid()) || JSON.stringify(this.ligne) !== this.serializedLine;
   }
 
@@ -47,10 +49,9 @@ export class LigneEditionComponent {
   }
 
   private setCurrentLigne(ligne: Ligne) {
-    console.log("setCurrentLigne", ligne);
-
     this.ligne = ligne;
     this.date = new Date(ligne.date);
+    this.valeur = (ligne.valeur) ? ligne.valeur / 100 : 0
     this.serializedLine = JSON.stringify(this.ligne);
     this.eventBus.emit(BusService.LigneSelectedEventType, this.ligne)
   }
@@ -89,8 +90,15 @@ export class LigneEditionComponent {
   onDateChange(date: Event) {
     const newDate = (date.target as HTMLInputElement).valueAsDate
     if (newDate) {
+      this.date = newDate
       this.ligne.date = newDate
     }
+  }
+
+  onValeurChange(newValeur: any) {
+    this.valeur = newValeur
+    this.ligne.valeur = newValeur * 100
+
   }
 
   cancelLigneHandler() {
@@ -128,6 +136,7 @@ export class LigneEditionComponent {
   }
 
   sauvegarderLigneHandler() {
+    
     if (!this.ligne.compte) {
       this.ligne.compte = new Compte()
       this.ligne.compte.id = this.compteId
@@ -149,6 +158,8 @@ export class LigneEditionComponent {
       .save(this.ligne, Ligne)
       .then(ligne => {
         this.setCurrentLigne(ligne);
+        this.eventBus.emit(BusService.LigneSavedEventType, ligne)
+        this.ref.markForCheck()
       })
 
     if (!this.ligne.tier.id) {
