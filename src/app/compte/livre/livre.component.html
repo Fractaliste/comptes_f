@@ -1,21 +1,23 @@
-<c-ligne-edition [compteId]="compteId"
-                 [total]="(lignesForTotal.length>0 ? lignesForTotal : lignes) | total | euro"></c-ligne-edition>
-<section class="row small">
-     <div class="col header">Date</div>
-     <div class="col-3 header">Tier</div>
-     <div class="col-2 header">Catégorie</div>
-     <div class="col-2 header">Note</div>
-     <div class="col header">N° chèque</div>
-     <div class="col header">Montant</div>
-     <div class="col header">Rapproché</div>
-     <div class="col header">Hors budget</div>
-     <div class="w-100"></div>
-     <ng-container *ngFor="let ligne of lignes">
-          <ng-template *ngTemplateOutlet="LigneRef; context: {$implicit: {l:ligne}}">
-          </ng-template>
-     </ng-container>
-</section>
+<div *ngIf="compteId">
 
+     <c-ligne-edition [compteId]="compteId"
+                      [total]="(lignesForTotal.length>0 ? lignesForTotal : lignes) | total | euro"></c-ligne-edition>
+     <section class="row small">
+          <div class="col header">Date</div>
+          <div class="col-3 header">Tier</div>
+          <div class="col-2 header">Catégorie</div>
+          <div class="col-2 header">Note</div>
+          <div class="col header">N° chèque</div>
+          <div class="col header">Montant</div>
+          <div class="col header">Rapproché</div>
+          <div class="col header">Hors budget</div>
+          <div class="w-100"></div>
+          <ng-container *ngFor="let ligne of lignes">
+               <ng-template *ngTemplateOutlet="LigneRef; context: {$implicit: {l:ligne}}">
+               </ng-template>
+          </ng-container>
+     </section>
+</div>
 <ng-template #LigneRef
              let-context>
      <div [class.selected-line]="context.l === selectedLine"

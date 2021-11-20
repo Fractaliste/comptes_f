@@ -1,4 +1,5 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { BackendService } from 'src/app/services/backend.service';
 import { BusService } from 'src/app/services/bus/bus.service';
 import { Ligne } from '../../../../../comptes_api/lib/esm';
@@ -13,13 +14,20 @@ export class LivreComponent {
   lignesForTotal: Ligne[] = []
   lignes: Ligne[] = []
   selectedLine?: Ligne;
-  compteId = 2
+  compteId?: number
 
-  constructor(private backendService: BackendService, private busService: BusService, private ref: ChangeDetectorRef) {
-    backendService.getLignesByCompte(this.compteId).then(lignes => this.lignes = lignes)
+  constructor(private backendService: BackendService, private busService: BusService,
+    private ref: ChangeDetectorRef, private route: ActivatedRoute) {
     busService.listen(BusService.LigneSelectedEventType).subscribe(l => this.selectedLigneHandler(l))
     busService.listen(BusService.LigneSavedEventType).subscribe(l => this.savedLigneHandler(l))
     busService.listen(BusService.LigneDeletedEventType).subscribe(l => this.deletedLigneHandler(l))
+
+    route.paramMap.subscribe(p => {
+      if (p.has("id")) {
+        this.compteId = Number(p.get("id"))
+        backendService.getLignesByCompte(this.compteId).then(lignes => this.lignes = lignes)
+      }
+    })
   }
 
   selectedLigneHandler(l: Ligne) {

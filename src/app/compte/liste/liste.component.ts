@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BackendService } from 'src/app/services/backend.service';
 import { BusService } from 'src/app/services/bus/bus.service';
 import { Compte } from '../../../../../comptes_api/lib/esm';
@@ -12,8 +13,16 @@ export class ListeComponent implements OnInit {
 
   comptes: Compte[] = [];
   soldes: any = {}
+  selectedCompteId?: number;
 
-  constructor(private backendService: BackendService, private busService: BusService) { }
+  constructor(private backendService: BackendService, private busService: BusService, private route: ActivatedRoute,
+    private router: Router) {
+    route.paramMap.subscribe(p => {
+      if (p.has("id")) {
+        this.selectedCompteId = Number(p.get("id"))
+      }
+    })
+  }
 
   ngOnInit(): void {
     this.backendService.getAll(Compte).then(comptes => {
@@ -37,6 +46,10 @@ export class ListeComponent implements OnInit {
 
   onEditerCompte(compte: Compte) {
     this.busService.emit(BusService.EditionCompteEventType, compte)
+  }
+
+  onCompteSelected(compte: Compte) {
+    this.router.navigate(["/compte", { id: compte.id }])
   }
 
 }
