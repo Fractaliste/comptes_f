@@ -39,6 +39,7 @@ export class LivreComponent {
     if (this.lignes[index]) {
       this.lignes.splice(index, 1)
     }
+    this.lignesForTotal = [...this.lignes]
   }
 
   clickedLigneHandler(l: Ligne) {

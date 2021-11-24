@@ -30,6 +30,7 @@ export class ListeComponent implements OnInit {
       this.miseAJourSoldes()
     })
     this.busService.listen(BusService.LigneSavedEventType).subscribe(() => this.miseAJourSoldes())
+    this.busService.listen(BusService.LigneDeletedEventType).subscribe(() => this.miseAJourSoldes())
   }
 
   private miseAJourSoldes() {
