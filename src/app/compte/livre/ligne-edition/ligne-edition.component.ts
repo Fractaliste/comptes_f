@@ -1,4 +1,5 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { Router } from '@angular/router';
 import { BackendService } from 'src/app/services/backend.service';
 import { BusService } from 'src/app/services/bus/bus.service';
 import { Categorie, Compte, Ligne, Tier } from '../../../../../../comptes_api/lib/esm';
@@ -21,7 +22,7 @@ export class LigneEditionComponent {
   @Input()
   total = ""
 
-  constructor(private eventBus: BusService, private backendService: BackendService, private ref: ChangeDetectorRef) {
+  constructor(private eventBus: BusService, private backendService: BackendService, private router: Router) {
     backendService.getAll(Categorie).then(c => this.categories = c)
     backendService.getAll(Tier).then(tiers => this.tiers = tiers)
 
@@ -136,7 +137,7 @@ export class LigneEditionComponent {
   }
 
   sauvegarderLigneHandler() {
-    
+
     if (!this.ligne.compte) {
       this.ligne.compte = new Compte()
       this.ligne.compte.id = this.compteId
@@ -159,7 +160,7 @@ export class LigneEditionComponent {
       .then(ligne => {
         this.setCurrentLigne(ligne);
         this.eventBus.emit(BusService.LigneSavedEventType, ligne)
-        this.ref.markForCheck()
+        // this.ref.markForCheck()
       })
 
     if (!this.ligne.tier.id) {
@@ -170,5 +171,12 @@ export class LigneEditionComponent {
     } else {
       saveLigneCallback()
     }
+  }
+
+  /**
+   * rapprochement
+   */
+  public rapprochement() {
+    this.router.navigate(["/rapprochement", { compteId: this.compteId }])
   }
 }

@@ -22,6 +22,7 @@ import { CategorieEditionComponent } from './categorie/categorie-edition/categor
 import { ErrorHandler } from './error/error-handler';
 import { TotalPipe } from './pipe/total.pipe';
 import { EuroPipe } from './pipe/euro.pipe';
+import { RapprochementComponent } from './rapprochement/rapprochement.component';
 
 registerLocaleData(localeFr);
 
@@ -40,7 +41,8 @@ registerLocaleData(localeFr);
     CategorieComponent,
     CategorieEditionComponent,
     TotalPipe,
-    EuroPipe
+    EuroPipe,
+    RapprochementComponent
   ],
   imports: [
     BrowserModule,

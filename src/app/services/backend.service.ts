@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Categorie, Compte, Ligne } from '../../../../comptes_api/lib/esm';
+import { Categorie, Compte, Ligne, Releve } from '../../../../comptes_api/lib/esm';
 import { BusService } from './bus/bus.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BackendService {
+
 
   constructor(private busService: BusService) { }
 
@@ -33,7 +34,14 @@ export class BackendService {
           console.error("Erreur réseau", res)
           this.busService.emit(BusService.ErrorMessageEventType, "Erreur réseau lors de l'appel " + path)
         }
-        return res.json()
+
+        if (Number(res.headers.get("Content-Length"))) {
+          return res.json()
+        } else {
+          // Si entité non trouvée
+          return undefined
+        }
+
       }).catch(error => {
         console.error("Erreur applicative", error)
         this.busService.emit(BusService.ErrorMessageEventType, "Erreur applicative lors de l'appel " + path)
@@ -58,6 +66,11 @@ export class BackendService {
     return this._fetch("/api/" + endpoint, "POST", entity)
   }
 
+  public get<T extends object>(entityId: number | string, clazz: { new(): T }): Promise<T> {
+    let endpoint = clazz.name.toLocaleLowerCase()
+    return this._fetch(`/api/${endpoint}/id/${entityId}`, "GET")
+  }
+
   public getAll<T>(clazz: { new(): T }): Promise<T[]> {
     return this._fetch("/api/" + clazz.name.toLocaleLowerCase(), "GET")
       .then((jsonArray: T[]) => {
@@ -74,10 +87,14 @@ export class BackendService {
   }
 
   public getLignesByCompte(compte: Compte | number) {
-    return this._fetch("/api/ligne/" + (compte instanceof Compte ? compte.id : compte), "GET")
+    return this._fetch("/api/ligne/compte/" + (compte instanceof Compte ? compte.id : compte), "GET")
   }
 
   public getSoldeByCompte(c: Compte) {
     return this._fetch("/api/compte/solde/" + c.id, "GET")
+  }
+
+  public getReleveByCompte(compteId: string): Promise<Releve | undefined> {
+    return this._fetch("/api/releve/compte/" + compteId, "GET")
   }
 }
